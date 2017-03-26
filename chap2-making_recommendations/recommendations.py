@@ -17,7 +17,9 @@ critics = { 'Lisa Rose': {'Lady in the Water': 2.5, 'Snakes on a Plane':3.5,
 'Jack Matthews': {'Lady in the Water': 3.0, 'Snakes on a Plane':4.0,
 'The Night Listener': 3.0, 'Superman Returns': 5.0, 'You, Me and Dupree': 3.5},
 'Toby': {'Snakes on a Plane': 4.5, 'You, Me and Dupree': 1.0,
-'Superman Returns': 4.0}}
+'Superman Returns': 4.0},
+'Harry': {'Snakes on a Plane': 4.5, 'You, Me and Dupree': 0.5,
+'Superman Returns': 5.0}}
 
 #Returns a distance-based similarity score from person1 and person2
 def sim_distance(prefs, person1, person2):
@@ -69,3 +71,14 @@ def sim_pearson(prefs, p1, p2):
     r=num/den
 
     return r
+
+#Returns the best matches for person from the prefs dictionary.
+#Number of results and similarity function are optional parameters.
+def topMatches(prefs, person, n=5, similarity=sim_pearson):
+    scores = [(similarity(prefs, person, other), other) \
+    for other in prefs if other != person]
+
+    #Sort the list so the highest scores appear at the top
+    scores.sort()
+    scores.reverse()
+    return scores[0:n]
